@@ -1,13 +1,19 @@
-// Shared UI components used across all modules
-
 export function PageHeader({ title, subtitle, action }) {
   return (
-    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'1.5rem', flexWrap:'wrap', gap:12 }}>
-      <div>
-        <h1 style={{ fontSize:20, fontWeight:600, marginBottom:2 }}>{title}</h1>
-        {subtitle && <p style={{ color:'var(--text-secondary)', fontSize:13 }}>{subtitle}</p>}
+    <div style={{ marginBottom:'1.75rem' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12, marginBottom:10 }}>
+        <div>
+          <h1 style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:600, color:'var(--gold-light)', marginBottom:2 }}>{title}</h1>
+          {subtitle && <p style={{ color:'var(--text-muted)', fontSize:13 }}>{subtitle}</p>}
+        </div>
+        {action}
       </div>
-      {action}
+      {/* tribal rule */}
+      <div style={{ display:'flex', gap:3 }}>
+        {['var(--gold)','var(--red)','var(--green)','var(--gold)','var(--red)','var(--green)','var(--gold)','var(--red)','var(--green)','var(--gold)','var(--red)','var(--green)'].map((c,i) => (
+          <div key={i} style={{ flex:1, height:2, background:c, opacity:0.5, borderRadius:1 }} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -22,9 +28,10 @@ export function Card({ children, style={} }) {
 
 export function StatCard({ label, value, color, sub }) {
   return (
-    <div style={{ background:'var(--bg-elevated)', borderRadius:'var(--radius)', padding:'12px 14px' }}>
-      <p style={{ fontSize:11, color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:0.5, marginBottom:4 }}>{label}</p>
-      <p style={{ fontSize:22, fontWeight:600, fontFamily:'var(--mono)', color: color||'var(--text)' }}>{value}</p>
+    <div style={{ background:'var(--bg-elevated)', borderRadius:'var(--radius)', padding:'14px', border:'1px solid var(--border)', position:'relative', overflow:'hidden' }}>
+      <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background: color||'var(--gold)', opacity:0.6 }} />
+      <p style={{ fontSize:11, color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:0.8, marginBottom:6 }}>{label}</p>
+      <p style={{ fontSize:24, fontWeight:700, fontFamily:'var(--font-display)', color: color||'var(--gold-light)' }}>{value}</p>
       {sub && <p style={{ fontSize:11, color:'var(--text-muted)', marginTop:2 }}>{sub}</p>}
     </div>
   )
@@ -32,7 +39,7 @@ export function StatCard({ label, value, color, sub }) {
 
 export function Badge({ label, color='var(--text-secondary)', bg='var(--bg-elevated)' }) {
   return (
-    <span style={{ fontSize:11, fontFamily:'var(--mono)', padding:'2px 8px', borderRadius:4, background:bg, color, whiteSpace:'nowrap' }}>
+    <span style={{ fontSize:11, fontFamily:'var(--mono)', padding:'2px 8px', borderRadius:3, background:bg, color, whiteSpace:'nowrap', border:`1px solid ${color}33` }}>
       {label}
     </span>
   )
@@ -41,7 +48,7 @@ export function Badge({ label, color='var(--text-secondary)', bg='var(--bg-eleva
 export function BtnPrimary({ children, onClick, disabled, type='button', style={} }) {
   return (
     <button type={type} onClick={onClick} disabled={disabled}
-      style={{ background:'var(--amber)', color:'#0D0D0D', border:'none', borderRadius:'var(--radius)', padding:'8px 16px', fontWeight:600, fontSize:13, cursor:'pointer', opacity: disabled?0.6:1, ...style }}>
+      style={{ background:'var(--gold)', color:'#1A1008', border:'none', borderRadius:'var(--radius)', padding:'8px 16px', fontWeight:600, fontSize:13, cursor:'pointer', opacity:disabled?0.6:1, fontFamily:'var(--font)', ...style }}>
       {children}
     </button>
   )
@@ -83,8 +90,8 @@ export function Textarea({ value, onChange, placeholder, rows=3, style={} }) {
 export function Field({ label, required, children }) {
   return (
     <div>
-      <label style={{ display:'block', fontSize:11, color:'var(--text-secondary)', textTransform:'uppercase', letterSpacing:0.5, marginBottom:6 }}>
-        {label}{required && <span style={{ color:'var(--amber)', marginLeft:2 }}>*</span>}
+      <label style={{ display:'block', fontSize:11, color:'var(--text-secondary)', textTransform:'uppercase', letterSpacing:0.8, marginBottom:6 }}>
+        {label}{required && <span style={{ color:'var(--gold)', marginLeft:2 }}>*</span>}
       </label>
       {children}
     </div>
@@ -93,17 +100,21 @@ export function Field({ label, required, children }) {
 
 export function Modal({ title, subtitle, onClose, children, maxWidth=520 }) {
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
-      onClick={e => e.target === e.currentTarget && onClose()}>
-      <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--radius-lg)', padding:'1.5rem', width:'100%', maxWidth, maxHeight:'90vh', overflowY:'auto' }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'1.25rem' }}>
-          <div>
-            <h2 style={{ fontSize:16, fontWeight:600 }}>{title}</h2>
-            {subtitle && <p style={{ fontSize:12, color:'var(--amber)', fontFamily:'var(--mono)', marginTop:2 }}>{subtitle}</p>}
+    <div style={{ position:'fixed', inset:0, background:'rgba(10,6,2,0.85)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+      onClick={e => e.target===e.currentTarget && onClose()}>
+      <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:'var(--radius-lg)', width:'100%', maxWidth, maxHeight:'90vh', overflowY:'auto', overflow:'hidden' }}>
+        <div className="tribal-divider" />
+        <div style={{ padding:'1.5rem' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'1.25rem' }}>
+            <div>
+              <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, color:'var(--gold-light)' }}>{title}</h2>
+              {subtitle && <p style={{ fontSize:12, color:'var(--gold)', fontFamily:'var(--mono)', marginTop:2 }}>{subtitle}</p>}
+            </div>
+            <button onClick={onClose} style={{ background:'none', border:'none', color:'var(--text-muted)', fontSize:18, cursor:'pointer' }}>✕</button>
           </div>
-          <button onClick={onClose} style={{ background:'none', border:'none', color:'var(--text-secondary)', fontSize:18, cursor:'pointer', lineHeight:1 }}>✕</button>
+          {children}
         </div>
-        {children}
+        <div className="tribal-divider" />
       </div>
     </div>
   )
@@ -111,8 +122,9 @@ export function Modal({ title, subtitle, onClose, children, maxWidth=520 }) {
 
 export function EmptyState({ message, action, onAction }) {
   return (
-    <div style={{ textAlign:'center', padding:'4rem 1rem', border:'1px dashed var(--border)', borderRadius:'var(--radius-lg)' }}>
-      <p style={{ color:'var(--text-muted)', fontSize:13, marginBottom: action?12:0 }}>{message}</p>
+    <div style={{ textAlign:'center', padding:'4rem 1rem', border:'1px dashed var(--border)', borderRadius:'var(--radius-lg)', background:'var(--bg-elevated)' }}>
+      <div style={{ fontSize:32, marginBottom:12 }}>🌿</div>
+      <p style={{ color:'var(--text-muted)', fontSize:13, marginBottom:action?14:0 }}>{message}</p>
       {action && <BtnPrimary onClick={onAction}>{action}</BtnPrimary>}
     </div>
   )
@@ -120,20 +132,16 @@ export function EmptyState({ message, action, onAction }) {
 
 export function ErrorMsg({ msg }) {
   if (!msg) return null
-  return <p style={{ color:'var(--red)', fontSize:13, background:'var(--red-dim)', padding:'8px 12px', borderRadius:'var(--radius)' }}>{msg}</p>
+  return <p style={{ color:'var(--red-light)', fontSize:13, background:'var(--red-dim)', padding:'8px 12px', borderRadius:'var(--radius)', border:'1px solid var(--red-dim)' }}>{msg}</p>
 }
 
 export function SuccessMsg({ msg }) {
   if (!msg) return null
-  return <p style={{ color:'var(--green)', fontSize:13, background:'var(--green-dim)', padding:'8px 12px', borderRadius:'var(--radius)' }}>{msg}</p>
+  return <p style={{ color:'var(--green-light)', fontSize:13, background:'var(--green-dim)', padding:'8px 12px', borderRadius:'var(--radius)' }}>{msg}</p>
 }
 
 export function Grid({ cols=2, children, gap=12 }) {
-  return (
-    <div style={{ display:'grid', gridTemplateColumns:`repeat(${cols}, 1fr)`, gap }}>
-      {children}
-    </div>
-  )
+  return <div style={{ display:'grid', gridTemplateColumns:`repeat(${cols}, 1fr)`, gap }}>{children}</div>
 }
 
 export function formatDate(d) {
@@ -147,9 +155,9 @@ export function formatDateTime(d) {
 }
 
 export function timeAgo(d) {
-  const diff = Math.floor((Date.now() - new Date(d)) / 1000)
-  if (diff < 60) return 'just now'
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`
-  if (diff < 86400) return `${Math.floor(diff/3600)}h ago`
+  const diff = Math.floor((Date.now()-new Date(d))/1000)
+  if (diff<60) return 'just now'
+  if (diff<3600) return `${Math.floor(diff/60)}m ago`
+  if (diff<86400) return `${Math.floor(diff/3600)}h ago`
   return `${Math.floor(diff/86400)}d ago`
 }
